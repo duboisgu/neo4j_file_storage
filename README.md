@@ -22,11 +22,11 @@ make check-requirements
 ### Load dataset
 In order to load the dataset, please run the following command:
 ```sh
-make load --user=<neo4j_username> --password=<neo4j_password>
+make load user=<neo4j_username> password=<neo4j_password>
 ```
 
 ### Clean database
 To drop the loaded data, run:
 ```sh
-make clean --user=<neo4j_username> --password=<neo4j_password>
+make clean user=<neo4j_username> password=<neo4j_password>
 ```

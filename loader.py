@@ -1,6 +1,8 @@
 import requests
 import argparse
+import collections
 
+cypher_requests = collections.OrderedDict()
 cypher_requests = {
     "Teams": """
     LOAD CSV WITH HEADERS FROM "https://raw.githubusercontent.com/duboisgu/neo4j_file_storage/master/CSV/teams.csv" AS line
@@ -69,12 +71,12 @@ def main():
     parser = argparse.ArgumentParser()
     parser.add_argument('--clean', action='store_true')
     parser.add_argument('--load', action='store_true')
-    parser.add_argument('--username', type=str, required=True)
+    parser.add_argument('--user', type=str, required=True)
     parser.add_argument('--password', type=str, required=True)
     args = parser.parse_args()
 
     target = "http://127.0.0.1:7474/db/data/cypher"
-    auth = (args.username, args.password)
+    auth = (args.user, args.password)
 
     if args.clean:
         clean(target, auth)

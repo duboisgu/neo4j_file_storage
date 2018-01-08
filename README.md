@@ -1,8 +1,17 @@
 # Football Grapher
 
 ## Requirements
-In order to automatically load the dataset, `python3` is required with the library
-[requests](http://docs.python-requests.org/en/master/)
+Python3 is needed to easily load the dataset into neo4j's database.
+
+__Debian__ and __Ubuntu__:
+```sh
+sudo apt-get update && sudo apt-get install python3 pyton3-pip
+```
+
+__macOS__ using [HomeBrew](https://brew.sh/):
+```sh
+brew update && brew install python3
+```
 
 To check if all the requierements are correctly installed, run:
 ```sh

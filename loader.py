@@ -3,52 +3,52 @@ import argparse
 import collections
 
 cypher_requests = collections.OrderedDict()
-cypher_requests = {
-    "Teams": """
+cypher_requests = [
+    ("Teams", """
     LOAD CSV WITH HEADERS FROM "https://raw.githubusercontent.com/duboisgu/neo4j_file_storage/master/CSV/teams.csv" AS line
     CREATE (:Team {country: line.name, nickname: line.nickname});
-    """,
+    """),
 
-    "Confederations": """
+    ("Confederations", """
     LOAD CSV WITH HEADERS FROM "https://raw.githubusercontent.com/duboisgu/neo4j_file_storage/master/CSV/confederations.csv" AS line
     MATCH (t:Team {country: line.team})
     MERGE (c:Confederation {name: line.name, continent: line.continent})
     CREATE (t)-[:BELONGS_TO]->(c);
-    """,
+    """),
 
-    "Tournaments objects": """
+    ("Tournaments objects", """
     CREATE (Tournament1:Tournament {name:"World Championship"})
     CREATE (Tournament2:Tournament {name:"Olympic Games"});
-    """,
+    """),
 
-    "World Cups": """
+    ("World Cups", """
     LOAD CSV WITH HEADERS FROM "https://raw.githubusercontent.com/duboisgu/neo4j_file_storage/master/CSV/world_cups.csv" AS line
     MATCH (wc:Tournament {name: "World Championship"})
     MATCH (t:Team {country: line.winner})
     CREATE (t)-[:WON {in: line.date, at: line.country}]->(wc);
-    """,
+    """),
 
-    "Olympic Games": """
+    ("Olympic Games", """
     LOAD CSV WITH HEADERS FROM "https://raw.githubusercontent.com/duboisgu/neo4j_file_storage/master/CSV/olympic_games.csv" AS line
     MATCH (og:Tournament {name: "Olympic Games"})
     MATCH (t:Team {country: line.winner})
     CREATE (t)-[:WON {in: line.date, at: line.city}]->(og);
-    """,
+    """),
 
-    "Managers": """
+    ("Managers", """
     LOAD CSV WITH HEADERS FROM "https://raw.githubusercontent.com/duboisgu/neo4j_file_storage/master/CSV/managers.csv" AS line
     MATCH (t:Team {country: line.team})
     CREATE (m:Manager {name: line.manager})
     CREATE (m)-[:MANAGE {since: line.since}]->(t);
-    """,
+    """),
 
-    "Captains": """
+    ("Captains", """
     LOAD CSV WITH HEADERS FROM "https://raw.githubusercontent.com/duboisgu/neo4j_file_storage/master/CSV/captains.csv" AS line
     MATCH (t:Team {country: line.team})
     CREATE (c:Captain {name: line.captain})
     CREATE (c)-[:PLAY_IN]->(t);
-    """
-}
+    """)
+]
 
 
 def post_request(target, auth, request):
@@ -63,8 +63,8 @@ def clean(target, auth):
 
 def load(target, auth):
     for r in cypher_requests:
-        print("Loading: " + r)
-        post_request(target, auth, cypher_requests[r])
+        print("Loading: " + r[0])
+        post_request(target, auth, r[1])
 
 
 def main():

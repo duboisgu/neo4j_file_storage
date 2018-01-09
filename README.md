@@ -1,7 +1,7 @@
 # Football Grapher
 
 ## Requirements
-Python3 is needed to easily load the dataset into neo4j's database.
+`Python3` as well as it's packages `requests` is needed to easily load the dataset into neo4j's database.
 
 __Debian__ and __Ubuntu__:
 ```sh
